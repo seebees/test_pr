@@ -1,0 +1,7 @@
+[include]
+# Use "include" rather than "prefix" because
+# some CLI entry point files have shebang lines
+# that need to come first.
+"**/*.js" = """
+// Header
+"""
