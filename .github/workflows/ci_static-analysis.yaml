@@ -16,7 +16,7 @@ jobs:
           script: |
             return {
               env: process.env[`GITHUB_SHA`],
-              pull_request: ((github.event.pull_request || {}).head || {}).sha,
+              pull_request: (((github.event || {}).pull_request || {}).head || {}).sha,
               context: context.sha,
               event: context.eventName
             }
