@@ -13,6 +13,12 @@ jobs:
       - uses: actions/github-script@v1
         id: set-result
         with:
-          script: return github
+          script: |
+            return {
+              env: process.env[`GITHUB_SHA`],
+              pull_request: ((github.event.pull_request || {}).head || {}).sha,
+              context: context.sha,
+              event: context.eventName
+            }
       - name: Get result
         run: echo "${{steps.set-result.outputs.result}}"
