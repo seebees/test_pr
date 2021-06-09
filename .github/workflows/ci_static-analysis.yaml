@@ -1,0 +1,24 @@
+# This workflow performs static analysis checks.
+name: static analysis
+
+on: ["pull_request", "push"]
+
+jobs:
+  not-grep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: not-grep
+        uses: mattsb42-meta/not-grep@1.0.0
+      - uses: actions/github-script@v1
+        id: set-result
+        with:
+          script: |
+            return {
+              env: process.env[`GITHUB_SHA`],
+              pull_request: (((github.event || {}).pull_request || {}).head || {}).sha,
+              context: context.sha,
+              event: context.eventName
+            }
+      - name: Get result
+        run: echo "${{steps.set-result.outputs.result}}"
